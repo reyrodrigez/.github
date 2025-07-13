@@ -14,12 +14,13 @@ function isMarkdownFile(filePath) {
 function parseMarkdownFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     if (content.includes(`<!-- ${bestBeforeDocComment} -->`)) {
-        const startTag = `<!-- ${bestBeforeDocComment} -->`;
-        const endTag = `<!-- ${bestBeforeDocComment} end -->`;
-        const regex = new RegExp(`${startTag}[\\s\\S]*?${endTag}`, 'g');
+        const startTag = RegExp.escape(`<!-- ${bestBeforeDocComment} -->`);
+        const endTag = RegExp.escape(`<!-- ${bestBeforeDocComment} end -->`);
+        const regex = new RegExp(`(${startTag})([\s\S]+)?(${endTag})`, 'g');
         const match = content.match(regex);
+        console.log(match)
         if (match) {
-            console.log(`Found content between tags in ${filePath}: ${match[0]}`);
+            console.log(`Found content between tags in ${filePath}: ${match}`);
             return;
         }
     }
