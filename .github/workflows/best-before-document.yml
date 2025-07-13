@@ -1,5 +1,8 @@
 name: Document Expiration Check
 
+permissions:
+  issues: write 
+
 on:
   push:
     branches: [ $default-branch, 'best-before' ]
