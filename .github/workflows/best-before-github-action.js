@@ -13,7 +13,7 @@ function isMarkdownFile(filePath) {
 
 async function raiseIssue(filePath) {
     // check issues exist
-    await fetch('https://api.github.com/repos/reyrodrigez/.github/issues', {
+    return await fetch('https://api.github.com/repos/reyrodrigez/.github/issues', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/vnd.github+json',
