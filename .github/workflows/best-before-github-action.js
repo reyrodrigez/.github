@@ -16,18 +16,13 @@ function parseMarkdownFile(filePath) {
     if (content.includes(`<!-- ${bestBeforeDocComment} -->`)) {
         const startTag = `<!-- ${bestBeforeDocComment} -->`;
         const endTag = `<!-- ${bestBeforeDocComment} end -->`;
-
-        const startIdx = content.indexOf(startTag) + startTag.length;
-        const endIdx = content.indexOf(endTag, startIdx);
-        if (endIdx !== -1) {
-            const between = content.slice(startIdx, endIdx).split('\n').filter(line => line.trim() !== '');
-            console.log(between);
+        const regex = new RegExp(`${startTag}[\\s\\S]*?${endTag}`, 'g');
+        const match = content.match(regex);
+        if (match) {
+            console.log(`Found content between tags in ${filePath}: ${match[0]}`);
             return;
         }
-
-        console.log(`File: ${filePath} missing end BBE comment`);
     }
-
     console.log(`File: ${filePath} does not have BBE comment`);
 }
 

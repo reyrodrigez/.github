@@ -7,7 +7,7 @@ on:
     branches: [ $default-branch ]
 
 env:
-  BEST_BEFORE_COMMENT: best-before-doc
+  BEST_BEFORE_COMMENT: bbe-doc
   NEXT_REVIEW_TXT: 'Next review due:'
   DEFAULT_REVIEW_DAYS: 180
 

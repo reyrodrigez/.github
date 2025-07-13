@@ -1,3 +1,1 @@
-<!-- best-before-doc -->
-Next review due: 07-08-2026
-<!-- best-before-doc end -->
+Next review due: <!-- bbe-doc -->07-08-2026<!-- bbe-doc end -->
