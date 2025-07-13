@@ -17,8 +17,11 @@ function parseMarkdownFile(filePath) {
         const startTag = RegExp.escape(`<!-- ${bestBeforeDocComment} -->`);
         const endTag = RegExp.escape(`<!-- ${bestBeforeDocComment} end -->`);
         const regex = new RegExp(`${startTag}([\\s\\S]+?)${endTag}`, 'g');
-        const match = content.match(regex);
+        const match = regex.exec(content);
+        const captured = match ? match[1] : null;
+        console.log(regex);
         console.log(match)
+        console.log(captured)
         if (match) {
             console.log(`Found content between tags in ${filePath}: ${match}`);
             return;
