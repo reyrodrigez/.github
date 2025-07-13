@@ -1,0 +1,12 @@
+{
+    "name": "Best Before Document",
+    "description": "Check expiration date on markdown documents.",
+    "iconName": "file-24",
+    "categories": [
+        "documents",
+        "markdown"
+    ],
+    "filePatterns": [
+        ".*\\.md$"
+    ]
+}

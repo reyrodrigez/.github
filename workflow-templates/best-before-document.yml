@@ -1,0 +1,14 @@
+name: Document Expiration Check
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check markdown docs expiration
+        run: echo Checking things
