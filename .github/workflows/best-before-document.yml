@@ -1,0 +1,35 @@
+name: Document Expiration Check
+
+permissions:
+  issues: write 
+
+on:
+  push:
+    branches: [ $default-branch, 'best-before' ]
+  pull_request:
+    branches: [ $default-branch ]
+
+env:
+  BEST_BEFORE_COMMENT: bbe-doc
+  NEXT_REVIEW_TXT: 'Next review due:'
+  DEFAULT_REVIEW_DAYS: 180
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+          
+
+      - name: Check markdown docs expiration
+        run: node .github/workflows/best-before-github-action.js          
