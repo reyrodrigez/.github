@@ -2,7 +2,7 @@ name: Document Expiration Check
 
 on:
   push:
-    branches: [ $default-branch,  'best-before']
+    branches: [ $default-branch ]
   pull_request:
     branches: [ $default-branch ]
 
@@ -12,9 +12,14 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Check markdown docs expiration
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Check markdown docs expiration
         run: node ./index.js
