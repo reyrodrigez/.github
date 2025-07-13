@@ -16,7 +16,7 @@ function parseMarkdownFile(filePath) {
     if (content.includes(`<!-- ${bestBeforeDocComment} -->`)) {
         const startTag = RegExp.escape(`<!-- ${bestBeforeDocComment} -->`);
         const endTag = RegExp.escape(`<!-- ${bestBeforeDocComment} end -->`);
-        const regex = new RegExp(`(${startTag})([\s\S]+)?(${endTag})`, 'g');
+        const regex = new RegExp(`${startTag}([\\s\\S]+?)${endTag}`, 'g');
         const match = content.match(regex);
         console.log(match)
         if (match) {
