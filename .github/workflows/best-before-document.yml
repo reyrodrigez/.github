@@ -22,4 +22,4 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Check markdown docs expiration
-        run: pwd && node ./workflows/best-before-github-action.js
+        run: pwd && node .github/workflows/best-before-github-action.js
