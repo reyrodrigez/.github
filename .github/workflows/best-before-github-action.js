@@ -11,6 +11,19 @@ function isMarkdownFile(filePath) {
     return fs.statSync(filePath).isFile() && filePath.endsWith('.md');
 }
 
+async function raiseIssue(filePath) {
+    // check issues exist
+    await fetch('https://api.github.com/repos/reyrodrigez/.github/issues', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28',
+            'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
+        },
+        body: JSON.stringify({ title: `Document review needed: ${filePath}`, body: `Review needed for ${filePath}` }),
+    });
+}
+
 function parseMarkdownFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     if (content.includes(`<!-- ${bestBeforeDocComment} -->`)) {
@@ -19,11 +32,10 @@ function parseMarkdownFile(filePath) {
         const regex = new RegExp(`${startTag}([\\s\\S]+?)${endTag}`, 'g');
         const match = regex.exec(content);
         const captured = match ? match[1] : null;
-        console.log(regex);
-        console.log(match)
-        console.log(captured)
-        if (match) {
-            console.log(`Found content between tags in ${filePath}: ${match}`);
+        if (captured) {
+            raiseIssue(filePath).catch(err => {
+                console.error(`Failed to raise issue for ${filePath}:`, err);
+            });
             return;
         }
     }
