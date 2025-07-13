@@ -17,4 +17,4 @@ jobs:
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
-        run: node ./best-before-document-github-action/index.js
+        run: node ./index.js
