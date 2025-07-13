@@ -1,13 +1,40 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+
+const bestBeforeDocComment = process.env.BEST_BEFORE_COMMENT || 'best-before-doc';
+
+function isMarkdownFile(filePath) {
+    return fs.statSync(filePath).isFile() && filePath.endsWith('.md');
+}
+
+function parseMarkdownFile(filePath) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    if (content.includes(`<!-- ${bestBeforeDocComment} -->`)) {
+        const startTag = `<!-- ${bestBeforeDocComment} -->`;
+        const endTag = `<!-- ${bestBeforeDocComment} end -->`;
+
+        const startIdx = content.indexOf(startTag) + startTag.length;
+        const endIdx = content.indexOf(endTag, startIdx);
+        if (endIdx !== -1) {
+            const between = content.slice(startIdx, endIdx).split('\n').filter(line => line.trim() !== '');
+            console.log(between);
+            return;
+        }
+
+        console.log(`File: ${filePath} missing end BBE comment`);
+    }
+
+    console.log(`File: ${filePath} does not have BBE comment`);
+}
+
 
 function logMarkdownFiles(dir) {
     fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
         const fullPath = path.join(dir, entry.name);
         if (entry.isDirectory()) {
             logMarkdownFiles(fullPath);
-        } else if (entry.isFile() && entry.name.endsWith('.md')) {
-            console.log(fullPath);
+        } else if (isMarkdownFile(fullPath)) {
+            parseMarkdownFile(fullPath);
         }
     });
 }
