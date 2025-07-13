@@ -32,8 +32,11 @@ function parseMarkdownFile(filePath) {
         const regex = new RegExp(`${startTag}([\\s\\S]+?)${endTag}`, 'g');
         const match = regex.exec(content);
         const captured = match ? match[1] : null;
+        console.log(`File: ${filePath} has BBE comment, ${captured ? 'captured content' : 'no content captured' }`);
         if (captured) {
-            raiseIssue(filePath).catch(err => {
+            raiseIssue(filePath)
+                .then(response => console.log(`Issue raised for ${filePath}:`, response))
+                .catch(err => {
                 console.error(`Failed to raise issue for ${filePath}:`, err);
             });
             return;
